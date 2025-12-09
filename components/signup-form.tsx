@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input'
 import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { signIn } from '@/server/users'
+import { signUp } from '@/server/users'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { Spinner } from './ui/spinner'
@@ -28,11 +28,12 @@ import { authClient } from '@/lib/auth-client'
 import Link from 'next/link'
 
 const formSchema = z.object({
+  username: z.string().min(3),
   email: z.email(),
   password: z.string().min(8)
 })
 
-export function LoginForm({
+export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
@@ -41,6 +42,7 @@ export function LoginForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      username: '',
       email: '',
       password: ''
     }
@@ -48,12 +50,12 @@ export function LoginForm({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await signIn(values)
-      toast.success('Login successful')
+      await signUp({ ...values, name: values.username })
+      toast.success('Signup successful')
       router.push('/dashboard')
     } catch (error) {
       console.error(error)
-      toast.error('Login failed')
+      toast.error('Signup failed')
     }
   }
 
@@ -73,7 +75,7 @@ export function LoginForm({
       <Card>
         <CardHeader className='text-center'>
           <CardTitle className='text-xl'>Welcome back</CardTitle>
-          <CardDescription>Login with your Google account</CardDescription>
+          <CardDescription>Signup with your Google account</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -90,12 +92,29 @@ export function LoginForm({
                       fill='currentColor'
                     />
                   </svg>
-                  Login with Google
+                  Signup with Google
                 </Button>
               </Field>
               <FieldSeparator className='*:data-[slot=field-separator-content]:bg-card'>
                 Or continue with
               </FieldSeparator>
+
+              <Controller
+                name='username'
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor='username'>Username</FieldLabel>
+                    <Input
+                      {...field}
+                      id='username'
+                      aria-invalid={fieldState.invalid}
+                      type='text'
+                      required
+                    />
+                  </Field>
+                )}
+              />
 
               <Controller
                 name='email'
@@ -142,10 +161,10 @@ export function LoginForm({
 
               <Field>
                 <Button disabled={form.formState.isSubmitting} type='submit'>
-                  {form.formState.isSubmitting ? <Spinner /> : 'Login'}
+                  {form.formState.isSubmitting ? <Spinner /> : 'Signup'}
                 </Button>
                 <FieldDescription className='text-center'>
-                  Don&apos;t have an account? <Link href='/signup'>Sign up</Link>
+                  Already have an account? <Link href='/login'>Login</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

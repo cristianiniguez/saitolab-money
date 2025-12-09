@@ -1,5 +1,11 @@
+import Logout from '@/components/logout'
+
 const DashboardPage = () => {
-  return <div>DashboardPage</div>
+  return (
+    <div className='flex items-center justify-center h-screen'>
+      <Logout />
+    </div>
+  )
 }
 
 export default DashboardPage
