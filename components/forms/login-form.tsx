@@ -3,27 +3,27 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { z } from 'zod'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 // components
-import { Button } from '@/components/ui/button'
+import { EmailInput } from '../inputs/email-input'
+import { PasswordInput } from '../inputs/password-input'
+import { Button } from '../ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle
-} from '@/components/ui/card'
+} from '../ui/card'
 import {
   Field,
   FieldDescription,
   FieldGroup,
-  FieldLabel,
   FieldSeparator
-} from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
-import { Spinner } from '@/components/ui/spinner'
+} from '../ui/field'
+import { Spinner } from '../ui/spinner'
 import { GoogleButton } from '../google-button'
 // server
 import { signIn } from '@/server/users'
@@ -77,47 +77,12 @@ export function LoginForm({
                 Or continue with
               </FieldSeparator>
 
-              <Controller
-                name='email'
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor='email'>Email</FieldLabel>
-                    <Input
-                      {...field}
-                      id='email'
-                      aria-invalid={fieldState.invalid}
-                      type='email'
-                      placeholder='m@example.com'
-                      required
-                    />
-                  </Field>
-                )}
-              />
+              <EmailInput control={form.control} label='Email' name='email' />
 
-              <Controller
-                name='password'
+              <PasswordInput
                 control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <div className='flex items-center'>
-                      <FieldLabel htmlFor='password'>Password</FieldLabel>
-                      <a
-                        href='#'
-                        className='ml-auto text-sm underline-offset-4 hover:underline'
-                      >
-                        Forgot your password?
-                      </a>
-                    </div>
-                    <Input
-                      {...field}
-                      id='password'
-                      aria-invalid={fieldState.invalid}
-                      type='password'
-                      required
-                    />
-                  </Field>
-                )}
+                label='Password'
+                name='password'
               />
 
               <Field>
