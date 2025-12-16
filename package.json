@@ -7,7 +7,7 @@
     "build": "pnpm run migrate && next build",
     "start": "next start",
     "lint": "eslint",
-    "migrate": "ts-node ./drizzle/migrate.ts"
+    "migrate": "ts-node ./db/migrate.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
