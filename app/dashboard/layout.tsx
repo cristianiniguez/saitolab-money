@@ -1,13 +1,14 @@
 import { AppSidebar } from '@/components/app-sidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import { readFinancialAccounts } from '@/server/financial-accounts'
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
+  const financialAccounts = await readFinancialAccounts()
+
   return (
     <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        {children}
-      </SidebarInset>
+      <AppSidebar financialAccounts={financialAccounts} />
+      <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>
   )
 }

@@ -118,7 +118,6 @@ export const financialAccount = pgTable(
     index('financial_account_userId_idx').on(table.userId)
   ]
 )
-export type FinancialAccountInsert = typeof financialAccount.$inferInsert
 
 export const financialAccountRelations = relations(
   financialAccount,

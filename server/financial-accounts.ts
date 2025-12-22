@@ -2,7 +2,7 @@
 
 import { eq } from 'drizzle-orm'
 import { db } from '@/db/drizzle'
-import { financialAccount, FinancialAccountInsert } from '@/db/schema'
+import { financialAccount } from '@/db/schema'
 import { getUserId } from '@/lib/auth'
 
 type CreateFinancialAccountPayload = Pick<FinancialAccountInsert, 'name' | 'type'>
