@@ -1,11 +1,13 @@
 'use client'
 
+import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '../ui/button'
 import { DataTable } from '../ui/data-table'
 import {
   BitcoinIcon,
   CoinsIcon,
+  EyeIcon,
   LandmarkIcon,
   PencilIcon,
   TrashIcon
@@ -34,6 +36,16 @@ const FinancialAccountActions = ({
 }) => {
   return (
     <div className='flex items-center justify-end gap-2'>
+      <Button
+        aria-label={`Edit ${financialAccount.name}`}
+        asChild
+        variant='ghost'
+        size='icon-sm'
+      >
+        <Link href={`/dashboard/financial-accounts/${financialAccount.id}`}>
+          <EyeIcon />
+        </Link>
+      </Button>
       <Button
         aria-label={`Edit ${financialAccount.name}`}
         variant='ghost'

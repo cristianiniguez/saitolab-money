@@ -19,7 +19,11 @@ import {
   SidebarMenuSubItem
 } from '@/components/ui/sidebar'
 
-export function NavMain({ financialAccounts }: { financialAccounts: FinancialAccount[] }) {
+export function NavMain({
+  financialAccounts
+}: {
+  financialAccounts: FinancialAccount[]
+}) {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>SaitoLab Money</SidebarGroupLabel>
@@ -41,7 +45,7 @@ export function NavMain({ financialAccounts }: { financialAccounts: FinancialAcc
                       <Link
                         href={`/dashboard/financial-accounts/${account.id}`}
                       >
-                        <span>{account.name}</span>
+                        {account.name}
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>

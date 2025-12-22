@@ -1,6 +1,7 @@
 'use client'
 
 import { Fragment } from 'react'
+import Link from 'next/link'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -34,11 +35,10 @@ const mapPageKeyToMeta: Record<string, { title: string; href?: string }> = {
   'financial-accounts': {
     title: 'Financial Accounts',
     href: '/dashboard/financial-accounts'
-  },
-  'financial-account': { title: 'Financial Account' }
+  }
 }
 
-const AppBreadcrumb = ({ pageKey }: { pageKey: string }) => {
+const AppBreadcrumb = ({ pageKey, pageTitle }: { pageKey: string; pageTitle?: React.ReactNode }) => {
   const pageKeys = getBreadcrumbPageKeys(pageKey)
 
   return (
@@ -46,7 +46,7 @@ const AppBreadcrumb = ({ pageKey }: { pageKey: string }) => {
       <BreadcrumbList>
         {pageKeys.map((pk, index) => {
           const isLast = index === pageKeys.length - 1
-          const { title = pk, href } = mapPageKeyToMeta[pk] || {}
+          const { title = (pageTitle ?? pk), href } = mapPageKeyToMeta[pk] || {}
 
           return (
             <Fragment key={pk}>
@@ -54,7 +54,9 @@ const AppBreadcrumb = ({ pageKey }: { pageKey: string }) => {
                 className={clsx(isLast ? 'block' : 'hidden', 'md:block')}
               >
                 {!isLast && href ? (
-                  <BreadcrumbLink href={href}>{title}</BreadcrumbLink>
+                  <BreadcrumbLink asChild>
+                    <Link href={href}>{title}</Link>
+                  </BreadcrumbLink>
                 ) : (
                   <BreadcrumbPage>{title}</BreadcrumbPage>
                 )}
