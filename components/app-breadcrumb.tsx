@@ -31,22 +31,25 @@ const getBreadcrumbPageKeys = (pageKey: string): string[] => {
 
 const mapPageKeyToMeta: Record<string, { title: string; href?: string }> = {
   dashboard: { title: 'Dashboard', href: '/dashboard' },
-  'financial-accounts': { title: 'Financial Accounts', href: '/dashboard/financial-accounts' },
+  'financial-accounts': {
+    title: 'Financial Accounts',
+    href: '/dashboard/financial-accounts'
+  },
   'financial-account': { title: 'Financial Account' }
 }
 
 const AppBreadcrumb = ({ pageKey }: { pageKey: string }) => {
   const pageKeys = getBreadcrumbPageKeys(pageKey)
-  const { title = pageKey, href } = mapPageKeyToMeta[pageKey] || {}
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {pageKeys.map((pageKey, index) => {
+        {pageKeys.map((pk, index) => {
           const isLast = index === pageKeys.length - 1
+          const { title = pk, href } = mapPageKeyToMeta[pk] || {}
 
           return (
-            <Fragment key={pageKey}>
+            <Fragment key={pk}>
               <BreadcrumbItem
                 className={clsx(isLast ? 'block' : 'hidden', 'md:block')}
               >
