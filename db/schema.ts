@@ -1,5 +1,7 @@
-import { relations } from 'drizzle-orm'
-import { pgTable, text, timestamp, boolean, index } from 'drizzle-orm/pg-core'
+import { relations, sql } from 'drizzle-orm'
+import { pgTable, text, timestamp, boolean, index, pgEnum } from 'drizzle-orm/pg-core'
+
+// AUTH TABLES
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -30,7 +32,7 @@ export const session = pgTable(
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' })
   },
-  (table) => [index('session_userId_idx').on(table.userId)]
+  table => [index('session_userId_idx').on(table.userId)]
 )
 
 export const account = pgTable(
@@ -54,7 +56,7 @@ export const account = pgTable(
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull()
   },
-  (table) => [index('account_userId_idx').on(table.userId)]
+  table => [index('account_userId_idx').on(table.userId)]
 )
 
 export const verification = pgTable(
@@ -70,7 +72,7 @@ export const verification = pgTable(
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull()
   },
-  (table) => [index('verification_identifier_idx').on(table.identifier)]
+  table => [index('verification_identifier_idx').on(table.identifier)]
 )
 
 export const userRelations = relations(user, ({ many }) => ({
@@ -91,3 +93,39 @@ export const accountRelations = relations(account, ({ one }) => ({
     references: [user.id]
   })
 }))
+
+// APP TABLES
+
+export const financialAccountType = pgEnum('financial_account_type', ['bank', 'cash', 'crypto'])
+
+export const financialAccount = pgTable(
+  'financial_account',
+  {
+    id: text('id').primaryKey().default(sql`gen_random_uuid()`),
+    userId: text('user_id')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    type: financialAccountType('type').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at')
+      .defaultNow()
+      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .notNull()
+  },
+  table => [
+    index('financial_account_name_idx').on(table.name),
+    index('financial_account_userId_idx').on(table.userId)
+  ]
+)
+export type FinancialAccountInsert = typeof financialAccount.$inferInsert
+
+export const financialAccountRelations = relations(
+  financialAccount,
+  ({ one }) => ({
+    user: one(user, {
+      fields: [financialAccount.userId],
+      references: [user.id]
+    })
+  })
+)

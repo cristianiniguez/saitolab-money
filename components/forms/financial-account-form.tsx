@@ -11,6 +11,7 @@ import {
   DialogTitle
 } from '@/components/ui/dialog'
 import { FieldGroup } from '@/components/ui/field'
+import { Spinner } from '@/components/ui/spinner'
 import { SelectInput } from '@/components/inputs/select-input'
 import { TextInput } from '@/components/inputs/text-input'
 
@@ -22,11 +23,13 @@ const formSchema = z.object({
 type FinancialAccountFormProps = {
   title: string
   description: string
+  onSubmit: (values: z.infer<typeof formSchema>) => void
 }
 
 const FinancialAccountForm = ({
   title,
-  description
+  description,
+  onSubmit
 }: FinancialAccountFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,10 +38,6 @@ const FinancialAccountForm = ({
       type: undefined
     }
   })
-
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
-  }
 
   return (
     <DialogContent>
@@ -66,7 +65,10 @@ const FinancialAccountForm = ({
           <DialogClose asChild>
             <Button variant='outline'>Cancel</Button>
           </DialogClose>
-          <Button type='submit'>Save changes</Button>
+
+          <Button disabled={form.formState.isSubmitting} type='submit'>
+            {form.formState.isSubmitting ? <Spinner /> : 'Save changes'}
+          </Button>
         </DialogFooter>
       </form>
     </DialogContent>
