@@ -1,10 +1,11 @@
 import Logout from '@/components/logout'
+import DashboardContent from '@/components/dashboard-content'
 
 const DashboardPage = () => {
   return (
-    <div className='flex items-center justify-center h-screen'>
+    <DashboardContent>
       <Logout />
-    </div>
+    </DashboardContent>
   )
 }
 
