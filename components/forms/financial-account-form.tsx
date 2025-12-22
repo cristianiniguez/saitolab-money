@@ -23,7 +23,7 @@ const formSchema = z.object({
 type FinancialAccountFormProps = {
   title: string
   description: string
-  onSubmit: (values: z.infer<typeof formSchema>) => void
+  onSubmit: (values: z.infer<typeof formSchema>) => void | Promise<void>
 }
 
 const FinancialAccountForm = ({
@@ -39,9 +39,14 @@ const FinancialAccountForm = ({
     }
   })
 
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    await onSubmit(values)
+    form.reset()
+  }
+
   return (
     <DialogContent>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
