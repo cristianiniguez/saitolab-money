@@ -17,12 +17,12 @@ type CustomInputProps<
   name: TName
 }
 
-export type CustomInput = <
+export type CustomInput<ExtraProps extends Record<string, unknown> = Record<never, never>> = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
   TTransformedValues = TFieldValues
 >(
-  props: CustomInputProps<TFieldValues, TName, TTransformedValues>
+  props: CustomInputProps<TFieldValues, TName, TTransformedValues> & ExtraProps
 ) => React.ReactNode
 
 type InputWrapperProps<

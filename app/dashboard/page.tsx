@@ -1,10 +1,10 @@
-import Logout from '@/components/logout'
 import DashboardContent from '@/components/dashboard-content'
+import CreateFinancialAccountDialog from '@/components/dialogs/create-financial-account-dialog'
 
 const DashboardPage = () => {
   return (
     <DashboardContent>
-      <Logout />
+      <CreateFinancialAccountDialog />
     </DashboardContent>
   )
 }
