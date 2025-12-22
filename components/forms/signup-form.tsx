@@ -31,11 +31,17 @@ import { signUp } from '@/server/users'
 // lib
 import { cn } from '@/lib/utils'
 
-const formSchema = z.object({
-  username: z.string().min(3),
-  email: z.email(),
-  password: z.string().min(8)
-})
+const formSchema = z
+  .object({
+    username: z.string().min(3),
+    email: z.email(),
+    password: z.string().min(8),
+    confirmPassword: z.string().min(8)
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword']
+  })
 
 export function SignupForm({
   className,
@@ -48,7 +54,8 @@ export function SignupForm({
     defaultValues: {
       username: '',
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     }
   })
 
@@ -93,6 +100,12 @@ export function SignupForm({
                 control={form.control}
                 label='Password'
                 name='password'
+              />
+
+              <PasswordInput
+                control={form.control}
+                label='Confirm Password'
+                name='confirmPassword'
               />
 
               <Field>
