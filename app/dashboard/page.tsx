@@ -3,7 +3,7 @@ import CreateFinancialAccountDialog from '@/components/dialogs/create-financial-
 
 const DashboardPage = async () => {
   return (
-    <DashboardContent>
+    <DashboardContent pageKey='dashboard'>
       <CreateFinancialAccountDialog />
     </DashboardContent>
   )
