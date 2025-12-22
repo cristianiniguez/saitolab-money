@@ -19,11 +19,7 @@ import {
   SidebarMenuSubItem
 } from '@/components/ui/sidebar'
 
-type NavMainProps = {
-  financialAccounts: FinancialAccountSelect[]
-}
-
-export function NavMain({ financialAccounts }: NavMainProps) {
+export function NavMain({ financialAccounts }: { financialAccounts: FinancialAccount[] }) {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>SaitoLab Money</SidebarGroupLabel>

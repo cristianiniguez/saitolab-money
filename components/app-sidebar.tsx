@@ -9,11 +9,7 @@ import {
   SidebarRail
 } from '@/components/ui/sidebar'
 
-type AppSidebarProps = {
-  financialAccounts: FinancialAccountSelect[]
-}
-
-export function AppSidebar({ financialAccounts }: AppSidebarProps) {
+export function AppSidebar({ financialAccounts }: { financialAccounts: FinancialAccount[] }) {
   return (
     <Sidebar collapsible='icon'>
       <SidebarContent>
