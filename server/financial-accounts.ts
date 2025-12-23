@@ -3,7 +3,7 @@
 import { and, eq } from 'drizzle-orm'
 import { db } from '@/db/drizzle'
 import { financialAccount } from '@/db/schema'
-import { getUserId } from '@/lib/auth'
+import { requireUserId } from '@/lib/auth'
 
 type CreateFinancialAccountPayload = Pick<
   FinancialAccountInsert,
@@ -11,8 +11,7 @@ type CreateFinancialAccountPayload = Pick<
 >
 
 export const readFinancialAccounts = async () => {
-  const userId = await getUserId()
-  if (!userId) throw new Error('Unauthorized')
+  const userId = await requireUserId()
 
   return db
     .select()
@@ -21,8 +20,7 @@ export const readFinancialAccounts = async () => {
 }
 
 export const readFinancialAccountById = async (id: string) => {
-  const userId = await getUserId()
-  if (!userId) throw new Error('Unauthorized')
+  const userId = await requireUserId()
 
   const result = await db
     .select()
@@ -38,8 +36,7 @@ export const readFinancialAccountById = async (id: string) => {
 export const createFinancialAccount = async (
   payload: CreateFinancialAccountPayload
 ) => {
-  const userId = await getUserId()
-  if (!userId) throw new Error('Unauthorized')
+  const userId = await requireUserId()
 
   await db.insert(financialAccount).values({ ...payload, userId })
 }

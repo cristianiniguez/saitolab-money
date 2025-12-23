@@ -20,3 +20,9 @@ export const auth = betterAuth({
 export const getSession = async () => auth.api.getSession({ headers: await headers() })
 
 export const getUserId = () => getSession().then(session => session?.user?.id)
+
+export const requireUserId = async () => {
+  const userId = await getUserId()
+  if (!userId) throw new Error('Unauthorized')
+  return userId
+}
