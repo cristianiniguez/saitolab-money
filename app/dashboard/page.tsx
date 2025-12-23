@@ -1,10 +1,15 @@
+import Link from 'next/link'
 import DashboardContent from '@/components/dashboard-content'
-import CreateFinancialAccountDialog from '@/components/dialogs/create-financial-account-dialog'
+import { Button } from '@/components/ui/button'
 
 const DashboardPage = async () => {
   return (
     <DashboardContent pageKey='dashboard'>
-      <CreateFinancialAccountDialog />
+      <Button>
+        <Link href='/dashboard/financial-accounts'>
+          View Financial Accounts
+        </Link>
+      </Button>
     </DashboardContent>
   )
 }

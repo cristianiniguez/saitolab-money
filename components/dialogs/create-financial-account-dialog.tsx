@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import FinancialAccountForm from '../forms/financial-account-form'
 import { createFinancialAccount } from '@/server/financial-accounts'
+import { PlusIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
 const CreateFinancialAccountDialog = () => {
@@ -29,7 +30,10 @@ const CreateFinancialAccountDialog = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant='outline'>Create Financial Account</Button>
+        <Button variant='outline' size='sm'>
+          <PlusIcon />
+          <span className='hidden lg:inline'>Create Financial Account</span>
+        </Button>
       </DialogTrigger>
 
       <FinancialAccountForm
