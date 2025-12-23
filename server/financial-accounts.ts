@@ -5,7 +5,7 @@ import { db } from '@/db/drizzle'
 import { financialAccount } from '@/db/schema'
 import { requireUserId } from '@/lib/auth'
 
-type CreateFinancialAccountPayload = Pick<
+type CreateUpdateFinancialAccountPayload = Pick<
   FinancialAccountInsert,
   'name' | 'type'
 >
@@ -34,9 +34,33 @@ export const readFinancialAccountById = async (id: string) => {
 }
 
 export const createFinancialAccount = async (
-  payload: CreateFinancialAccountPayload
+  payload: CreateUpdateFinancialAccountPayload
 ) => {
   const userId = await requireUserId()
 
   await db.insert(financialAccount).values({ ...payload, userId })
+}
+
+export const updateFinancialAccount = async (
+  id: string,
+  payload: CreateUpdateFinancialAccountPayload
+) => {
+  const userId = await requireUserId()
+
+  await db
+    .update(financialAccount)
+    .set(payload)
+    .where(
+      and(eq(financialAccount.id, id), eq(financialAccount.userId, userId))
+    )
+}
+
+export const deleteFinancialAccount = async (id: string) => {
+  const userId = await requireUserId()
+
+  await db
+    .delete(financialAccount)
+    .where(
+      and(eq(financialAccount.id, id), eq(financialAccount.userId, userId))
+    )
 }

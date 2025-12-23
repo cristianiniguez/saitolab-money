@@ -21,12 +21,14 @@ const formSchema = z.object({
 })
 
 type FinancialAccountFormProps = {
+  financialAccount?: FinancialAccount
   title: string
   description: string
   onSubmit: (values: z.infer<typeof formSchema>) => void | Promise<void>
 }
 
 const FinancialAccountForm = ({
+  financialAccount,
   title,
   description,
   onSubmit
@@ -34,8 +36,8 @@ const FinancialAccountForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      type: undefined
+      name: financialAccount?.name ?? '',
+      type: financialAccount?.type ?? undefined
     }
   })
 
@@ -72,7 +74,7 @@ const FinancialAccountForm = ({
           </DialogClose>
 
           <Button disabled={form.formState.isSubmitting} type='submit'>
-            {form.formState.isSubmitting ? <Spinner /> : 'Save changes'}
+            {form.formState.isSubmitting ? <Spinner /> : 'Save'}
           </Button>
         </DialogFooter>
       </form>

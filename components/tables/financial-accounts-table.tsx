@@ -4,14 +4,9 @@ import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '../ui/button'
 import { DataTable } from '../ui/data-table'
-import {
-  BitcoinIcon,
-  CoinsIcon,
-  EyeIcon,
-  LandmarkIcon,
-  PencilIcon,
-  TrashIcon
-} from 'lucide-react'
+import { BitcoinIcon, CoinsIcon, EyeIcon, LandmarkIcon } from 'lucide-react'
+import UpdateFinancialAccountDialog from '../dialogs/update-financial-account-dialog'
+import DeleteFinancialAccountDialog from '../dialogs/delete-financial-account-dialog'
 
 const mapFinancialAccountTypeToMeta = {
   bank: { icon: LandmarkIcon, label: 'Bank' },
@@ -37,7 +32,7 @@ const FinancialAccountActions = ({
   return (
     <div className='flex items-center justify-end gap-2'>
       <Button
-        aria-label={`Edit ${financialAccount.name}`}
+        aria-label={`View ${financialAccount.name}`}
         asChild
         variant='ghost'
         size='icon-sm'
@@ -46,22 +41,8 @@ const FinancialAccountActions = ({
           <EyeIcon />
         </Link>
       </Button>
-      <Button
-        aria-label={`Edit ${financialAccount.name}`}
-        variant='ghost'
-        size='icon-sm'
-        onClick={() => {}}
-      >
-        <PencilIcon />
-      </Button>
-      <Button
-        aria-label={`Delete ${financialAccount.name}`}
-        variant='ghost'
-        size='icon-sm'
-        onClick={() => {}}
-      >
-        <TrashIcon />
-      </Button>
+      <UpdateFinancialAccountDialog financialAccount={financialAccount} />
+      <DeleteFinancialAccountDialog financialAccount={financialAccount} />
     </div>
   )
 }
