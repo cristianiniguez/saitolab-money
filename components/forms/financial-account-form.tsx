@@ -14,6 +14,7 @@ import { FieldGroup } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import { SelectInput } from '@/components/inputs/select-input'
 import { TextInput } from '@/components/inputs/text-input'
+import { BitcoinIcon, CoinsIcon, LandmarkIcon } from 'lucide-react'
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -61,9 +62,9 @@ const FinancialAccountForm = ({
             label='Type'
             name='type'
             options={[
-              { label: 'Bank', value: 'bank' },
-              { label: 'Cash', value: 'cash' },
-              { label: 'Crypto', value: 'crypto' }
+              { icon: LandmarkIcon, label: 'Bank', value: 'bank' },
+              { icon: CoinsIcon, label: 'Cash', value: 'cash' },
+              { icon: BitcoinIcon, label: 'Crypto', value: 'crypto' }
             ]}
           />
         </FieldGroup>

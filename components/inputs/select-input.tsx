@@ -6,8 +6,10 @@ import {
   SelectTrigger,
   SelectValue
 } from '../ui/select'
+import { LucideIcon } from 'lucide-react'
 
 type SelectInputOption = {
+  icon?: LucideIcon
   label: React.ReactNode
   value: string
 }
@@ -31,7 +33,10 @@ export const SelectInput: CustomInput<{ options: SelectInputOption[] }> = ({
           <SelectContent>
             {options.map(opt => (
               <SelectItem key={opt.value} value={opt.value}>
-                {opt.label}
+                <div className='flex items-center gap-2'>
+                  {opt.icon && <opt.icon />}
+                  {opt.label}
+                </div>
               </SelectItem>
             ))}
           </SelectContent>
